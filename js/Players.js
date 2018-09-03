@@ -1,8 +1,7 @@
-function Player(game,x,y,velocity,color){
+function Player(game,x,y,color){
     this.game=game;
     this.x=x;
     this.y=y;
-    this.velocity=velocity;
     this.color=color;
 };
 
