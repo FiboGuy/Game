@@ -1,18 +1,38 @@
-function Bullets(game,x,y,vx,vy,r) {
+function Bullet(game,x,y,vx,vy) {
     this.game = game;
     this.x = x;
     this.y = y;
-    this.vx = vx;
+    this.r = 5;
+    this.vx=vx;
     this.vy=vy;
-    this.r = r;
+
+    console.log(this.vy);
 }
 
 
-Bullets.prototype.draw = function () {
+Bullet.prototype.draw = function () {
     this.game.ctx.beginPath();
+    this.game.ctx.fillStyle='white';
     this.game.ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
     this.game.ctx.fill();
 }
+
+Bullet.prototype.move=function(){
+    this.x+=this.vx;
+    this.y+=this.vy;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
