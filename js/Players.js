@@ -1,28 +1,31 @@
-function Player(game, x, y, color,vx,vy) {
+function Player(game,img,sx,sy,dw,dh, x, y, color,vx,vy) {
     this.game = game;
+    this.img=img;
+    this.sx=sx;
+    this.sy=sy;
+    this.dw=dw;
+    this.dh=dh;
     this.x = x;
     this.y = y;
+    this.w=100;
+    this.h=100;
     this.color = color;
     this.bullets=[];
     this.vx=vx;
     this.vy=vy;
-
-    this.marioImg = new Image();
-    this.marioImg.src = 
-
-
-    this.lifes=["|","|","|"];
-
+    this.lifes=["|","|","|","|","|","|"];
+    
 };
 
 Player.prototype.draw = function () {
-    this.game.ctx.beginPath();
-    this.game.ctx.fillStyle = this.color;
-    this.game.ctx.arc(this.x, this.y, 20, 0, Math.PI * 2, false);
-    this.game.ctx.fill(); 
-    this.bullets = this.bullets.filter(function(bullet) {
+    
+    this.game.ctx.drawImage(this.img,this.sx,this.sy,this.dw,
+        this.dh,this.x,this.y,this.w,this.h);
+        
+        this.bullets = this.bullets.filter(function(bullet) {
         return bullet.x < this.game.canvas.width && bullet.x>0 && bullet.y>0 && bullet.y<this.game.canvas.height;
       }.bind(this));
+   
     this.bullets.forEach(bullet => {
         bullet.draw();
         bullet.move();
@@ -30,7 +33,7 @@ Player.prototype.draw = function () {
 };
 
 Player.prototype.shoot=function(){
-    var bullet=new Bullet(this.game,this.x+this.vx*3,this.y+this.vy*3,this.vx,this.vy,this.color);
+    var bullet=new Bullet(this.game,this.x+50,this.y+50,this.vx,this.vy,this.color);
     this.bullets.push(bullet);
 }
 
