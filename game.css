@@ -8,8 +8,11 @@ body{
 }
 
 #canvas{
-   background-color:white;
+   background-image:url("./img/gameBackground.png");
+   background-size:cover;
+   background-repeat: no-repeat;
 }
+
 
 #button{
     text-align:center;

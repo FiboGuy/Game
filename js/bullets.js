@@ -1,24 +1,22 @@
-function Bullet(game,x,y,vx,vy,color) {
+function Bullet(game, x, y, vx, vy,img) {
     this.game = game;
     this.x = x;
     this.y = y;
-    this.r = 5;
-    this.vx=vx;
-    this.vy=vy;
-    this.color=color;
+    this.vx = vx;
+    this.vy = vy;
+    this.img=img;
 }
+
+//ctx.drawImage(image, dx, dy, dWidth, dHeight);
 
 
 Bullet.prototype.draw = function () {
-    this.game.ctx.beginPath();
-    this.game.ctx.fillStyle=this.color;
-    this.game.ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
-    this.game.ctx.fill();
+    this.game.ctx.drawImage(this.img, this.x, this.y,15,15);
 }
 
-Bullet.prototype.move=function(){
-    this.x+=this.vx;
-    this.y+=this.vy;
+Bullet.prototype.move = function () {
+    this.x += this.vx;
+    this.y += this.vy;
 }
 
 
