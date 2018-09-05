@@ -14,7 +14,7 @@ function Player(game, img, sx, sy, dw, dh, x, y, color, vx, vy,imgFire) {
     this.vx = vx;
     this.vy = vy;
     this.imgFire=imgFire;
-    this.lifes = ["|", "|", "|", "|", "|", "|"];
+    this.lifes = ["❤", "❤", "❤", "❤", "❤"];
 
 };
 

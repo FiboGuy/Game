@@ -44,14 +44,14 @@ Game.prototype.start = function () {
         if (this.framesCounter > 1000) {
             this.framesCounter = 0;
         }
-        this.gameOver();
-        this.lifesText();
         this.keys();
         this.commands();
         this.limits();
         this.mario.draw();
         this.luigi.draw();
         this.collision();
+        this.gameOver();
+        this.lifesText();
         if (keys[t] && this.framesCounter % 10 == 0) {
             this.luigi.shoot();
         }
@@ -83,7 +83,7 @@ Game.prototype.commands = function () {
     if (keys[top1]) {
         this.mario.y -= 10
         this.mario.vx = 0;
-        this.mario.vy = -15;
+        this.mario.vy = -20;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 6 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 3 / 5);
@@ -93,14 +93,14 @@ Game.prototype.commands = function () {
     if (keys[down1]) {
         this.mario.y += 10
         this.mario.vx = 0;
-        this.mario.vy = 15;
+        this.mario.vy = 20;
         this.mario.img = this.imgMario;
         this.mario.sx = 0
         this.mario.sy = Math.floor(this.marioHeight * 4 / 5);
     }
     if (keys[right1]) {
         this.mario.x += 10
-        this.mario.vx = 15;
+        this.mario.vx = 20;
         this.mario.vy = 0;
         this.mario.img = this.imgMarioMirror;
         this.mario.sx = 0
@@ -110,7 +110,7 @@ Game.prototype.commands = function () {
     }
     if (keys[left1]) {
         this.mario.x -= 10
-        this.mario.vx = -15;
+        this.mario.vx = -20;
         this.mario.vy = 0;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 8 / 9);
@@ -120,7 +120,7 @@ Game.prototype.commands = function () {
     if (keys[top2]) {
         this.luigi.y -= 10
         this.luigi.vx = 0;
-        this.luigi.vy = -15;
+        this.luigi.vy = -20;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = Math.floor(this.luigiWidth * 6 / 9);
         this.luigi.sy = Math.floor(this.luigiHeight * 1 / 5);
@@ -129,7 +129,7 @@ Game.prototype.commands = function () {
     if (keys[down2]) {
         this.luigi.y += 10
         this.luigi.vx = 0;
-        this.luigi.vy = 15;
+        this.luigi.vy = 20;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = 0
         this.luigi.sy = Math.floor(this.luigiHeight * 1 / 5);
@@ -137,7 +137,7 @@ Game.prototype.commands = function () {
     }
     if (keys[right2]) {
         this.luigi.x += 10
-        this.luigi.vx = 15;
+        this.luigi.vx = 20;
         this.luigi.vy = 0;
         this.luigi.img = this.imgLuigiMirror;
         this.luigi.sx = Math.floor(this.marioWidth * 7 / 9);
@@ -146,7 +146,7 @@ Game.prototype.commands = function () {
 
     if (keys[left2]) {
         this.luigi.x -= 10
-        this.luigi.vx = -15;
+        this.luigi.vx = -20;
         this.luigi.vy = 0;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = Math.floor(this.marioWidth * 1 / 9);
@@ -154,58 +154,58 @@ Game.prototype.commands = function () {
     }
 
     if (keys[top1] && keys[right1]) {
-        this.mario.vx = 15;
-        this.mario.vy = -15;
+        this.mario.vx = 20;
+        this.mario.vy = -20;
         this.mario.img = this.imgMarioMirror;
         this.mario.sx = Math.floor(this.marioWidth * 1 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 2 / 5);
     }
     if (keys[down1] && keys[right1]) {
-        this.mario.vx = 15;
-        this.mario.vy = 15;
+        this.mario.vx = 20;
+        this.mario.vy = 20;
         this.mario.img = this.imgMarioMirror;
         this.mario.sx = Math.floor(this.marioWidth * 6 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[top1] && keys[left1]) {
-        this.mario.vx = -15;
-        this.mario.vy = -15;
+        this.mario.vx = -20;
+        this.mario.vy = -20;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 7 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 2 / 5);
     }
     if (keys[down1] && keys[left1]) {
-        this.mario.vx = -15;
-        this.mario.vy = 15;
+        this.mario.vx = -20;
+        this.mario.vy = 20;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 2 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[top2] && keys[right2]) {
-        this.luigi.vx = 15;
-        this.luigi.vy = -15;
+        this.luigi.vx = 20;
+        this.luigi.vy = -20;
         this.luigi.img = this.imgLuigiMirror;
         this.luigi.sx = Math.floor(this.marioWidth * 4 / 9);
         this.luigi.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[top2] && keys[left2]) {
-        this.luigi.vx = -15;
-        this.luigi.vy = -15;
+        this.luigi.vx = -20;
+        this.luigi.vy = -20;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = Math.floor(this.marioWidth * 4 / 9);
         this.luigi.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[down2] && keys[left2]) {
-        this.luigi.vx = -15;
-        this.luigi.vy = 15;
+        this.luigi.vx = -20;
+        this.luigi.vy = 20;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = 0
         this.luigi.sy = Math.floor(this.marioHeight * 4 / 5);
     }
 
     if (keys[down2] && keys[right2]) {
-        this.luigi.vx = 15;
-        this.luigi.vy = 15;
+        this.luigi.vx = 20;
+        this.luigi.vy = 20;
         this.luigi.img = this.imgLuigiMirror;
         this.luigi.sx = Math.floor(this.marioWidth * 8 / 9);
         this.luigi.sy = Math.floor(this.marioHeight * 4 / 5);
@@ -218,10 +218,10 @@ Game.prototype.commands = function () {
 Game.prototype.reset = function () {
     this.luigi = new Player(this, this.imgLuigiMirror,
         Math.floor(this.luigiWidth * 7 / 9), Math.floor(this.luigiHeight * 4 / 5), Math.floor(this.luigiWidth / 9),
-        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 15, 0,this.imgLuigiFire);
+        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 20, 0,this.imgLuigiFire);
     this.mario = new Player(this, this.imgMario,
         Math.floor(this.marioWidth * 8 / 9), Math.floor(this.marioHeight * 1 / 5), Math.floor(this.marioWidth / 9),
-        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -15, 0,this.imgMarioFire);
+        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -20, 0,this.imgMarioFire);
     this.framesCounter = 0;
 }
 
@@ -268,20 +268,54 @@ Game.prototype.collision = function () {
 Game.prototype.gameOver = function () {
     if (this.mario.lifes.length === 0) {
         clearInterval(this.interval);
+        setTimeout(function(){
+            this.luigiWins();
+            }.bind(this),500);
+        
     }
     else if (this.luigi.lifes.length === 0) {
         clearInterval(this.interval);
+        setTimeout(function(){
+        this.marioWins();
+        }.bind(this),500);
     }
-
 }
 
 
 Game.prototype.lifesText = function () {
-    this.ctx.font = '48px Super Mario Brothers';
+    this.ctx.font = '3.5vw Super Mario Brothers';
     this.ctx.fillStyle = "rgb(92, 219, 92)";
-    this.ctx.fillText(this.luigi.lifes.join("") + ' Luigi' , 400, 68);
+    this.ctx.fillText( 'luigi ' + this.luigi.lifes.join("")  , 200, 68);
     this.ctx.fillStyle = "red";
-    this.ctx.fillText("Mario " + this.mario.lifes.join(""), this.canvas.width - 600, 68);
+    this.ctx.fillText("mario " + this.mario.lifes.join(""), this.canvas.width - 650, 68);
+}
+
+
+Game.prototype.marioWins=function(){
+    $("#canvas").remove();
+    $("body").addClass("finish");
+    $("body").append("<div class='MarioWins'><h2>MARIO WINS!</h2><button id='playAgain' type='button'>play again</button></div>")
+    $("#playAgain").click(function(){
+        $("body").removeClass("finish")
+        $(".MarioWins").remove();
+        $("body").append("<canvas id='canvas'></canvas>")
+        var game = new Game("canvas");
+        game.start();
+    }.bind(this));
+}
+
+
+Game.prototype.luigiWins=function(){
+    $("#canvas").remove();
+    $("body").addClass("finish");
+    $("body").append("<div class='LuigiWins'><h2>LUIGI WINS!</h2><button id='playAgain' type='button'>play again</button></div>")
+    $("#playAgain").click(function(){
+        $("body").removeClass("finish")
+        $(".LuigiWins").remove();
+        $("body").append("<canvas id='canvas'></canvas>")
+        var game = new Game("canvas");
+        game.start();
+    }.bind(this));
 }
 
 

@@ -1,10 +1,12 @@
 body{
     margin:0;
-    background-image: url("./Img/MariovsLuigi.jpg");
     background-size:cover;
     background-repeat:no-repeat;
     width:100%;
     height:100%;
+}
+.start{
+    background-image: url("./Img/IntroBackground.jpg");
 }
 
 #canvas{
@@ -15,18 +17,101 @@ body{
 
 
 #button{
-    text-align:center;
-    color: white;
-    background:0;
-    border:0;
-    font-size:4vw;
-    margin-left:39%;
-    margin-top:45%;
+    text-align: center;
+    color: #b72a2a;
+    background: 0;
+    border: 0;
+    font-size: 6vw;
+    margin-left: 6%;
+    margin-top: 41%;
+    font-family: "Super Mario Brothers";
+    animation-name:changeColor;
+    animation-duration:0.2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes changeColor{
+    0%{color:#b72a2a}
+    100%{color:#759d40}
+
 }
 #button:hover{
-    color:red;
+    font-size:7vw;
+    margin-left:3%;
+    
+}
+#mario{
+    color: #b72a2a;
+}
+#luigi{
+    margin-top:-20%;
+    color:#759d40;
+}
+#vs{
+    margin-top:-20%;
+    color:black;
+}
+
+#title{
+    position:absolute;
+    text-align:center;
+    left:10%;
+    font-size: 5vw;
+    font-family: "Super Mario Brothers";
+}
+
+.LuigiWins{
+    border:5px solid black;
+    border-radius: 2%;
+    background-color:#759d40;
+    opacity:0.8;
+    width:600px;
+    height:450px;
+    margin:0 auto;
+    margin-top:10%;
+    background-image:url("./Img/LuigiWins.png");
+    background-size:250px 250px;
+    background-position: 10% 65%;
+    background-repeat:no-repeat;
+}
+
+.MarioWins{
+    border:5px solid black;
+    border-radius: 2%;
+    background-color:#b72a2a;
+    opacity:0.8;
+    width:600px;
+    height:450px;
+    margin:0 auto;
+    margin-top:10%;
+    background-image:url("./Img/MarioWins.png");
+    background-size:250px 250px;
+    background-position: 10% 65%;
+    background-repeat:no-repeat;
 }
 #playAgain{
-    background-color:red;
-
+   
+    width:35%;
+    text-align:center;
+    margin-left: 50%;
+    margin-top: 5%;
+    background: 0;
+    border: 0;
+    font-family: "Super Mario Brothers";
+    font-size: 3.5vw;
+}
+h2{
+    font-size: 5vw;
+    font-family: "Super Mario Brothers";
+    margin-left:8%;
+    margin-top:5%;
+}
+#playAgain:hover{
+    width:40%;
+    margin-left:47.5%;
+    font-size:4.5vw;
+}
+.finish{
+    background-image:url("./img/gameBackground.png");
 }
