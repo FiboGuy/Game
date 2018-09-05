@@ -25,18 +25,28 @@ function Game(canvasId) {
     this.imgLuigiFire = new Image();
     this.imgLuigiFire.src = "./Img/LuigiFire.png";
 
-    this.music=new Audio();
-    this.music.src="./sounds/10 Bowser Castle.mp3"
+    this.imgVBoost=new Image();
+    this.imgVBoost.src="./Img/start.png"
+
+    this.music = new Audio();
+    this.music.src = "./sounds/10 Bowser Castle.mp3"
     this.music.play();
 
-    this.musicVictory=new Audio();
-    this.musicVictory.src="./sounds/33 Battle Win.mp3"
+    this.musicVictory = new Audio();
+    this.musicVictory.src = "./sounds/33 Battle Win.mp3"
 
-    this.musicImpact=new Audio();
-    this.musicImpact.src="./sounds/smb_bump.wav"
-
+    this.musicImpact = new Audio();
+    this.musicImpact.src = "./sounds/smb_bump.wav"
 
     
+    setTimeout(function () {
+        this.createBoosters();
+        this.boosterVCreated = true;
+    }.bind(this), this.randomNumber());
+
+    console.log(this.randomNumber());
+    console.log(this.randomNumber());
+
     this.reset();
 }
 Game.prototype.keys = function () {
@@ -55,11 +65,17 @@ Game.prototype.start = function () {
         if (this.framesCounter > 1000) {
             this.framesCounter = 0;
         }
+        this.mario.draw();
+        this.luigi.draw();
+        if (this.boosterVCreated == true) {
+            if (this.boostV.took == false) {
+                this.boostV.draw();
+                this.getBooster();
+            }
+        }
         this.keys();
         this.commands();
         this.limits();
-        this.mario.draw();
-        this.luigi.draw();
         this.gameOver();
         this.collision();
         this.lifesText();
@@ -92,7 +108,7 @@ var shift = 16;
 Game.prototype.commands = function () {
 
     if (keys[top1]) {
-        this.mario.y -= 10
+        this.mario.y -= this.mario.velocity;
         this.mario.vx = 0;
         this.mario.vy = -20;
         this.mario.img = this.imgMario;
@@ -102,7 +118,7 @@ Game.prototype.commands = function () {
     }
 
     if (keys[down1]) {
-        this.mario.y += 10
+        this.mario.y += this.mario.velocity;
         this.mario.vx = 0;
         this.mario.vy = 20;
         this.mario.img = this.imgMario;
@@ -110,7 +126,7 @@ Game.prototype.commands = function () {
         this.mario.sy = Math.floor(this.marioHeight * 4 / 5);
     }
     if (keys[right1]) {
-        this.mario.x += 10
+        this.mario.x += this.mario.velocity;
         this.mario.vx = 20;
         this.mario.vy = 0;
         this.mario.img = this.imgMarioMirror;
@@ -120,7 +136,7 @@ Game.prototype.commands = function () {
 
     }
     if (keys[left1]) {
-        this.mario.x -= 10
+        this.mario.x -= this.mario.velocity;
         this.mario.vx = -20;
         this.mario.vy = 0;
         this.mario.img = this.imgMario;
@@ -129,7 +145,7 @@ Game.prototype.commands = function () {
     }
 
     if (keys[top2]) {
-        this.luigi.y -= 10
+        this.luigi.y -= this.luigi.velocity;
         this.luigi.vx = 0;
         this.luigi.vy = -20;
         this.luigi.img = this.imgLuigi;
@@ -138,7 +154,7 @@ Game.prototype.commands = function () {
     }
 
     if (keys[down2]) {
-        this.luigi.y += 10
+        this.luigi.y += this.luigi.velocity;
         this.luigi.vx = 0;
         this.luigi.vy = 20;
         this.luigi.img = this.imgLuigi;
@@ -147,7 +163,7 @@ Game.prototype.commands = function () {
 
     }
     if (keys[right2]) {
-        this.luigi.x += 10
+        this.luigi.x += this.luigi.velocity;
         this.luigi.vx = 20;
         this.luigi.vy = 0;
         this.luigi.img = this.imgLuigiMirror;
@@ -156,7 +172,7 @@ Game.prototype.commands = function () {
     }
 
     if (keys[left2]) {
-        this.luigi.x -= 10
+        this.luigi.x -= this.luigi.velocity;
         this.luigi.vx = -20;
         this.luigi.vy = 0;
         this.luigi.img = this.imgLuigi;
@@ -335,7 +351,26 @@ Game.prototype.luigiWins = function () {
     }.bind(this));
 }
 
+Game.prototype.createBoosters = function () {
+    this.boostV = new Booster(this,this.imgVBoost);
+}
 
+Game.prototype.getBooster = function () {
+    if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.boostV.x, this.boostV.y) < 45) {
+        this.boostV.took = true;
+        this.boostV = 0;
+        this.mario.velocity = 30;
+    }
+    if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostV.x, this.boostV.y) < 45) {
+        this.boostV.took = true;
+        this.boostV = 0;
+        this.luigi.velocity = 30;
+    }
+}
+
+Game.prototype.randomNumber=function(){
+    return Math.floor(Math.random() * (20000 - 5000) + 5000);
+}
 
 
 
