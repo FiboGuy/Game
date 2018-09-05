@@ -9,7 +9,7 @@ function Game(canvasId) {
     this.marioWidth = 439;
     this.marioHeight = 239;
     this.imgMarioMirror = new Image();
-    this.imgMarioMirror.src = "./Img/Mario-mirror.png"
+    this.imgMarioMirror.src = "./Img/Mario-mirror.png";
 
 
     this.imgLuigi = new Image();
@@ -17,15 +17,26 @@ function Game(canvasId) {
     this.luigiWidth = 439;
     this.luigiHeight = 241;
     this.imgLuigiMirror = new Image();
-    this.imgLuigiMirror.src = "./Img/luigi-mirror.png"
+    this.imgLuigiMirror.src = "./Img/luigi-mirror.png";
 
     this.imgMarioFire = new Image();
     this.imgMarioFire.src = "./Img/MarioFire.png";
 
-    this.imgLuigiFire= new Image();
-    this.imgLuigiFire.src="./Img/LuigiFire.png";
+    this.imgLuigiFire = new Image();
+    this.imgLuigiFire.src = "./Img/LuigiFire.png";
+
+    this.music=new Audio();
+    this.music.src="./sounds/10 Bowser Castle.mp3"
+    this.music.play();
+
+    this.musicVictory=new Audio();
+    this.musicVictory.src="./sounds/33 Battle Win.mp3"
+
+    this.musicImpact=new Audio();
+    this.musicImpact.src="./sounds/smb_bump.wav"
 
 
+    
     this.reset();
 }
 Game.prototype.keys = function () {
@@ -49,8 +60,8 @@ Game.prototype.start = function () {
         this.limits();
         this.mario.draw();
         this.luigi.draw();
-        this.collision();
         this.gameOver();
+        this.collision();
         this.lifesText();
         if (keys[t] && this.framesCounter % 10 == 0) {
             this.luigi.shoot();
@@ -218,10 +229,10 @@ Game.prototype.commands = function () {
 Game.prototype.reset = function () {
     this.luigi = new Player(this, this.imgLuigiMirror,
         Math.floor(this.luigiWidth * 7 / 9), Math.floor(this.luigiHeight * 4 / 5), Math.floor(this.luigiWidth / 9),
-        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 20, 0,this.imgLuigiFire);
+        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 20, 0, this.imgLuigiFire);
     this.mario = new Player(this, this.imgMario,
         Math.floor(this.marioWidth * 8 / 9), Math.floor(this.marioHeight * 1 / 5), Math.floor(this.marioWidth / 9),
-        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -20, 0,this.imgMarioFire);
+        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -20, 0, this.imgMarioFire);
     this.framesCounter = 0;
 }
 
@@ -256,28 +267,34 @@ Game.prototype.collision = function () {
         if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.luigi.bullets[i].x, this.luigi.bullets[i].y) < 35) {
             this.luigi.bullets.splice(i, 1);
             this.mario.lifes.splice(0, 1);
+            this.musicImpact.play();
         }
     }
     for (var i = 0; i < this.mario.bullets.length; i++) {
         if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.mario.bullets[i].x, this.mario.bullets[i].y) < 35) {
             this.mario.bullets.splice(i, 1);
             this.luigi.lifes.splice(0, 1);
+            this.musicImpact.play();
         }
     }
 }
 Game.prototype.gameOver = function () {
     if (this.mario.lifes.length === 0) {
         clearInterval(this.interval);
-        setTimeout(function(){
+        this.music.pause();
+        this.musicVictory.play();
+        setTimeout(function () {
             this.luigiWins();
-            }.bind(this),500);
-        
+        }.bind(this), 500);
+
     }
     else if (this.luigi.lifes.length === 0) {
         clearInterval(this.interval);
-        setTimeout(function(){
-        this.marioWins();
-        }.bind(this),500);
+        this.music.pause();
+        this.musicVictory.play();
+        setTimeout(function () {
+            this.marioWins();
+        }.bind(this), 500);
     }
 }
 
@@ -285,17 +302,17 @@ Game.prototype.gameOver = function () {
 Game.prototype.lifesText = function () {
     this.ctx.font = '3.5vw Super Mario Brothers';
     this.ctx.fillStyle = "rgb(92, 219, 92)";
-    this.ctx.fillText( 'luigi ' + this.luigi.lifes.join("")  , 200, 68);
+    this.ctx.fillText('luigi ' + this.luigi.lifes.join(""), 200, 68);
     this.ctx.fillStyle = "red";
     this.ctx.fillText("mario " + this.mario.lifes.join(""), this.canvas.width - 650, 68);
 }
 
 
-Game.prototype.marioWins=function(){
+Game.prototype.marioWins = function () {
     $("#canvas").remove();
     $("body").addClass("finish");
     $("body").append("<div class='MarioWins'><h2>MARIO WINS!</h2><button id='playAgain' type='button'>play again</button></div>")
-    $("#playAgain").click(function(){
+    $("#playAgain").click(function () {
         $("body").removeClass("finish")
         $(".MarioWins").remove();
         $("body").append("<canvas id='canvas'></canvas>")
@@ -305,11 +322,11 @@ Game.prototype.marioWins=function(){
 }
 
 
-Game.prototype.luigiWins=function(){
+Game.prototype.luigiWins = function () {
     $("#canvas").remove();
     $("body").addClass("finish");
     $("body").append("<div class='LuigiWins'><h2>LUIGI WINS!</h2><button id='playAgain' type='button'>play again</button></div>")
-    $("#playAgain").click(function(){
+    $("#playAgain").click(function () {
         $("body").removeClass("finish")
         $(".LuigiWins").remove();
         $("body").append("<canvas id='canvas'></canvas>")
