@@ -340,9 +340,11 @@ Game.prototype.gameOver = function () {
 Game.prototype.lifesText = function () {
     this.ctx.font = '3.5vw Super Mario Brothers';
     this.ctx.fillStyle = "rgb(92, 219, 92)";
-    this.ctx.fillText('luigi ' + this.luigi.lifes.join(""), 200, 68);
+    this.percentageW=this.canvas.width/100;
+    this.percentageH=this.canvas.height/100;
+    this.ctx.fillText('luigi ' + this.luigi.lifes.join(""), this.percentageW*15, this.percentageH*9);
     this.ctx.fillStyle = "red";
-    this.ctx.fillText("mario " + this.mario.lifes.join(""), this.canvas.width - 650, 68);
+    this.ctx.fillText("mario " + this.mario.lifes.join(""), this.percentageW*55, this.percentageH*9);
 }
 
 
