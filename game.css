@@ -20,7 +20,7 @@ body{
 }
 
 #canvas{
-   background-image:url("./img/gameBackground.png");
+   background-image:url("./Img/gameBackground.png");
    background-size:cover;
    background-repeat: no-repeat;
 }
@@ -124,5 +124,5 @@ h2{
 }
 
 .finish{
-    background-image:url("./img/gameBackground.png");
+    background-image:url("./Img/gameBackground.png");
 }
