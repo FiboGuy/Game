@@ -94,7 +94,7 @@ Game.prototype.start = function () {
                 this.getBooster();
             }
         }
-
+        
         this.keys();
         this.commands();
         this.limits();
