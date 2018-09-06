@@ -25,8 +25,14 @@ function Game(canvasId) {
     this.imgLuigiFire = new Image();
     this.imgLuigiFire.src = "./Img/LuigiFire.png";
 
-    this.imgVBoost=new Image();
-    this.imgVBoost.src="./Img/start.png"
+    this.imgVBoost = new Image();
+    this.imgVBoost.src = "./Img/start.png"
+
+    this.imgDBoost = new Image();
+    this.imgDBoost.src = "./Img/doubleShot.png"
+
+    this.imgLBoost = new Image();
+    this.imgLBoost.src = "./Img/Heart.png"
 
     this.music = new Audio();
     this.music.src = "./sounds/10 Bowser Castle.mp3"
@@ -38,14 +44,13 @@ function Game(canvasId) {
     this.musicImpact = new Audio();
     this.musicImpact.src = "./sounds/smb_bump.wav"
 
-    
-    setTimeout(function () {
-        this.createBoosters();
-        this.boosterVCreated = true;
-    }.bind(this), this.randomNumber());
+    this.musicBooster = new Audio();
+    this.musicBooster.src = "./sounds/boosterSound.wav"
 
-    console.log(this.randomNumber());
-    console.log(this.randomNumber());
+    this.musicLife = new Audio();
+    this.musicLife.src = "./sounds/smb_1-up.wav"
+
+    this.createBoosters();
 
     this.reset();
 }
@@ -62,9 +67,11 @@ Game.prototype.start = function () {
     this.interval = setInterval(function () {
         this.clear();
         this.framesCounter++;
+
         if (this.framesCounter > 1000) {
             this.framesCounter = 0;
         }
+
         this.mario.draw();
         this.luigi.draw();
         if (this.boosterVCreated == true) {
@@ -73,16 +80,31 @@ Game.prototype.start = function () {
                 this.getBooster();
             }
         }
+
+        if (this.boosterDCreated == true) {
+            if (this.boostD.took == false) {
+                this.boostD.draw();
+                this.getBooster();
+            }
+        }
+
+        if (this.boosterLCreated == true) {
+            if (this.boostL.took == false) {
+                this.boostL.draw();
+                this.getBooster();
+            }
+        }
+
         this.keys();
         this.commands();
         this.limits();
         this.gameOver();
         this.collision();
         this.lifesText();
-        if (keys[t] && this.framesCounter % 10 == 0) {
+        if (keys[t] && this.framesCounter % this.luigi.framesVelocity == 0) {
             this.luigi.shoot();
         }
-        if (keys[shift] && this.framesCounter % 10 == 0) {
+        if (keys[shift] && this.framesCounter % this.mario.framesVelocity == 0) {
             this.mario.shoot();
         }
     }.bind(this), 30);
@@ -110,7 +132,7 @@ Game.prototype.commands = function () {
     if (keys[top1]) {
         this.mario.y -= this.mario.velocity;
         this.mario.vx = 0;
-        this.mario.vy = -20;
+        this.mario.vy = -this.mario.bulletSpeed;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 6 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 3 / 5);
@@ -120,14 +142,14 @@ Game.prototype.commands = function () {
     if (keys[down1]) {
         this.mario.y += this.mario.velocity;
         this.mario.vx = 0;
-        this.mario.vy = 20;
+        this.mario.vy = this.mario.bulletSpeed;
         this.mario.img = this.imgMario;
         this.mario.sx = 0
         this.mario.sy = Math.floor(this.marioHeight * 4 / 5);
     }
     if (keys[right1]) {
         this.mario.x += this.mario.velocity;
-        this.mario.vx = 20;
+        this.mario.vx = this.mario.bulletSpeed;
         this.mario.vy = 0;
         this.mario.img = this.imgMarioMirror;
         this.mario.sx = 0
@@ -137,7 +159,7 @@ Game.prototype.commands = function () {
     }
     if (keys[left1]) {
         this.mario.x -= this.mario.velocity;
-        this.mario.vx = -20;
+        this.mario.vx = -this.mario.bulletSpeed;
         this.mario.vy = 0;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 8 / 9);
@@ -147,7 +169,7 @@ Game.prototype.commands = function () {
     if (keys[top2]) {
         this.luigi.y -= this.luigi.velocity;
         this.luigi.vx = 0;
-        this.luigi.vy = -20;
+        this.luigi.vy = -this.luigi.bulletSpeed;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = Math.floor(this.luigiWidth * 6 / 9);
         this.luigi.sy = Math.floor(this.luigiHeight * 1 / 5);
@@ -156,7 +178,7 @@ Game.prototype.commands = function () {
     if (keys[down2]) {
         this.luigi.y += this.luigi.velocity;
         this.luigi.vx = 0;
-        this.luigi.vy = 20;
+        this.luigi.vy = this.luigi.bulletSpeed;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = 0
         this.luigi.sy = Math.floor(this.luigiHeight * 1 / 5);
@@ -164,7 +186,7 @@ Game.prototype.commands = function () {
     }
     if (keys[right2]) {
         this.luigi.x += this.luigi.velocity;
-        this.luigi.vx = 20;
+        this.luigi.vx = this.luigi.bulletSpeed;
         this.luigi.vy = 0;
         this.luigi.img = this.imgLuigiMirror;
         this.luigi.sx = Math.floor(this.marioWidth * 7 / 9);
@@ -173,7 +195,7 @@ Game.prototype.commands = function () {
 
     if (keys[left2]) {
         this.luigi.x -= this.luigi.velocity;
-        this.luigi.vx = -20;
+        this.luigi.vx = -this.luigi.bulletSpeed;
         this.luigi.vy = 0;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = Math.floor(this.marioWidth * 1 / 9);
@@ -181,65 +203,63 @@ Game.prototype.commands = function () {
     }
 
     if (keys[top1] && keys[right1]) {
-        this.mario.vx = 20;
-        this.mario.vy = -20;
+        this.mario.vx = this.mario.bulletSpeed;
+        this.mario.vy = -this.mario.bulletSpeed;
         this.mario.img = this.imgMarioMirror;
         this.mario.sx = Math.floor(this.marioWidth * 1 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 2 / 5);
     }
     if (keys[down1] && keys[right1]) {
-        this.mario.vx = 20;
-        this.mario.vy = 20;
+        this.mario.vx = this.mario.bulletSpeed;
+        this.mario.vy = this.mario.bulletSpeed;
         this.mario.img = this.imgMarioMirror;
         this.mario.sx = Math.floor(this.marioWidth * 6 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[top1] && keys[left1]) {
-        this.mario.vx = -20;
-        this.mario.vy = -20;
+        this.mario.vx = -this.mario.bulletSpeed;
+        this.mario.vy = -this.mario.bulletSpeed;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 7 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 2 / 5);
     }
     if (keys[down1] && keys[left1]) {
-        this.mario.vx = -20;
-        this.mario.vy = 20;
+        this.mario.vx = -this.mario.bulletSpeed;
+        this.mario.vy = this.mario.bulletSpeed;
         this.mario.img = this.imgMario;
         this.mario.sx = Math.floor(this.marioWidth * 2 / 9);
         this.mario.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[top2] && keys[right2]) {
-        this.luigi.vx = 20;
-        this.luigi.vy = -20;
+        this.luigi.vx = this.luigi.bulletSpeed;
+        this.luigi.vy = -this.luigi.bulletSpeed;
         this.luigi.img = this.imgLuigiMirror;
         this.luigi.sx = Math.floor(this.marioWidth * 4 / 9);
         this.luigi.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[top2] && keys[left2]) {
-        this.luigi.vx = -20;
-        this.luigi.vy = -20;
+        this.luigi.vx = -this.luigi.bulletSpeed;
+        this.luigi.vy = -this.luigi.bulletSpeed;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = Math.floor(this.marioWidth * 4 / 9);
         this.luigi.sy = Math.floor(this.marioHeight * 1 / 5);
     }
     if (keys[down2] && keys[left2]) {
-        this.luigi.vx = -20;
-        this.luigi.vy = 20;
+        this.luigi.vx = -this.luigi.bulletSpeed;
+        this.luigi.vy = this.luigi.bulletSpeed;
         this.luigi.img = this.imgLuigi;
         this.luigi.sx = 0
         this.luigi.sy = Math.floor(this.marioHeight * 4 / 5);
     }
 
     if (keys[down2] && keys[right2]) {
-        this.luigi.vx = 20;
-        this.luigi.vy = 20;
+        this.luigi.vx = this.luigi.bulletSpeed;
+        this.luigi.vy = this.luigi.bulletSpeed;
         this.luigi.img = this.imgLuigiMirror;
         this.luigi.sx = Math.floor(this.marioWidth * 8 / 9);
         this.luigi.sy = Math.floor(this.marioHeight * 4 / 5);
     }
 }
-
-
 
 
 Game.prototype.reset = function () {
@@ -250,6 +270,8 @@ Game.prototype.reset = function () {
         Math.floor(this.marioWidth * 8 / 9), Math.floor(this.marioHeight * 1 / 5), Math.floor(this.marioWidth / 9),
         Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -20, 0, this.imgMarioFire);
     this.framesCounter = 0;
+
+
 }
 
 Game.prototype.limits = function () {
@@ -280,14 +302,14 @@ Game.prototype.limits = function () {
 }
 Game.prototype.collision = function () {
     for (var i = 0; i < this.luigi.bullets.length; i++) {
-        if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.luigi.bullets[i].x, this.luigi.bullets[i].y) < 35) {
+        if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.luigi.bullets[i].x, this.luigi.bullets[i].y) < 45) {
             this.luigi.bullets.splice(i, 1);
             this.mario.lifes.splice(0, 1);
             this.musicImpact.play();
         }
     }
     for (var i = 0; i < this.mario.bullets.length; i++) {
-        if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.mario.bullets[i].x, this.mario.bullets[i].y) < 35) {
+        if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.mario.bullets[i].x, this.mario.bullets[i].y) < 45) {
             this.mario.bullets.splice(i, 1);
             this.luigi.lifes.splice(0, 1);
             this.musicImpact.play();
@@ -352,24 +374,68 @@ Game.prototype.luigiWins = function () {
 }
 
 Game.prototype.createBoosters = function () {
-    this.boostV = new Booster(this,this.imgVBoost);
-}
+    setTimeout(function () {
+        this.boostV = new Booster(this, this.imgVBoost);
+        this.boosterVCreated = true;
+    }.bind(this), this.randomNumber());
+    setTimeout(function () {
+        this.boostD = new Booster(this, this.imgDBoost);
+        this.boosterDCreated = true;
+    }.bind(this), this.randomNumber());
+    setTimeout(function () {
+        this.boostL = new Booster(this, this.imgLBoost);
+        this.boosterLCreated = true;
+    }.bind(this), this.randomNumber());
+};
 
 Game.prototype.getBooster = function () {
-    if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.boostV.x, this.boostV.y) < 45) {
-        this.boostV.took = true;
-        this.boostV = 0;
-        this.mario.velocity = 30;
+    if (this.boosterVCreated == true) {
+        if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.boostV.x + 20, this.boostV.y + 20) < 70) {
+            this.boostV.took = true;
+            this.boostV = 0;
+            this.musicBooster.play();
+            this.mario.velocity = 25;
+        }
+        if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostV.x + 20, this.boostV.y + 20) < 70) {
+            this.boostV.took = true;
+            this.boostV = 0;
+            this.musicBooster.play();
+            this.luigi.velocity = 25;
+        }
     }
-    if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostV.x, this.boostV.y) < 45) {
-        this.boostV.took = true;
-        this.boostV = 0;
-        this.luigi.velocity = 30;
+    if (this.boosterDCreated == true) {
+        if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.boostD.x + 20, this.boostD.y + 20) < 70) {
+            this.boostD.took = true;
+            this.boostD = 0;
+            this.musicBooster.play();
+            this.mario.framesVelocity = 5;
+        }
+        if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostD.x + 20, this.boostD.y + 20) < 70) {
+            this.boostD.took = true;
+            this.boostD = 0;
+            this.musicBooster.play();
+            this.luigi.framesVelocity = 5;
+        }
     }
+    if (this.boosterLCreated == true) {
+        if (this.mario.distance(this.mario.x + 50, this.mario.y + 50, this.boostL.x + 20, this.boostL.y + 20) < 70) {
+            this.boostL.took = true;
+            this.boostL = 0;
+            this.musicLife.play();
+            this.mario.lifes.push(["❤"])
+        }
+        if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostL.x + 20, this.boostL.y + 20) < 70) {
+            this.boostL.took = true;
+            this.boostL = 0;
+            this.musicLife.play();
+            this.luigi.lifes.push(["❤"]);
+        }
+    }
+
 }
 
-Game.prototype.randomNumber=function(){
-    return Math.floor(Math.random() * (20000 - 5000) + 5000);
+Game.prototype.randomNumber = function () {
+    return Math.floor(Math.random() * (20000 - 8000) + 8000);
 }
 
 

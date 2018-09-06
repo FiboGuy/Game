@@ -1,4 +1,4 @@
-function Player(game, img, sx, sy, dw, dh, x, y, color, vx, vy,imgFire) {
+function Player(game, img, sx, sy, dw, dh, x, y, color, vx, vy, imgFire) {
     this.game = game;
     this.img = img;
     this.sx = sx;
@@ -7,14 +7,16 @@ function Player(game, img, sx, sy, dw, dh, x, y, color, vx, vy,imgFire) {
     this.dh = dh;
     this.x = x;
     this.y = y;
-    this.velocity=10;
+    this.velocity = 10;
+    this.bulletSpeed = 20;
+    this.framesVelocity = 10;
     this.w = 100;
     this.h = 100;
     this.color = color;
     this.bullets = [];
     this.vx = vx;
     this.vy = vy;
-    this.imgFire=imgFire;
+    this.imgFire = imgFire;
     this.lifes = ["❤", "❤", "❤", "❤", "❤"];
 
 };
@@ -35,7 +37,7 @@ Player.prototype.draw = function () {
 };
 
 Player.prototype.shoot = function () {
-    var bullet = new Bullet(this.game,this.x + 50, this.y + 50, this.vx, this.vy,this.imgFire);
+    var bullet = new Bullet(this.game, this.x + 50, this.y + 50, this.vx, this.vy, this.imgFire);
     this.bullets.push(bullet);
 }
 
