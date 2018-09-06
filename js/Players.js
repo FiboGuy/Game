@@ -7,9 +7,9 @@ function Player(game, img, sx, sy, dw, dh, x, y, color, vx, vy, imgFire) {
     this.dh = dh;
     this.x = x;
     this.y = y;
-    this.velocity = 10;
-    this.bulletSpeed = 20;
-    this.framesVelocity = 10;
+    this.velocity = 5;
+    this.bulletSpeed = 10;
+    this.framesVelocity = 20;
     this.w = 100;
     this.h = 100;
     this.color = color;

@@ -107,7 +107,7 @@ Game.prototype.start = function () {
         if (keys[shift] && this.framesCounter % this.mario.framesVelocity == 0) {
             this.mario.shoot();
         }
-    }.bind(this), 30);
+    }.bind(this), 1000/60);
 };
 
 Game.prototype.clear = function () {
@@ -265,10 +265,10 @@ Game.prototype.commands = function () {
 Game.prototype.reset = function () {
     this.luigi = new Player(this, this.imgLuigiMirror,
         Math.floor(this.luigiWidth * 7 / 9), Math.floor(this.luigiHeight * 4 / 5), Math.floor(this.luigiWidth / 9),
-        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 20, 0, this.imgLuigiFire);
+        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 10, 0, this.imgLuigiFire);
     this.mario = new Player(this, this.imgMario,
         Math.floor(this.marioWidth * 8 / 9), Math.floor(this.marioHeight * 1 / 5), Math.floor(this.marioWidth / 9),
-        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -20, 0, this.imgMarioFire);
+        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -10, 0, this.imgMarioFire);
     this.framesCounter = 0;
 
 
@@ -396,13 +396,13 @@ Game.prototype.getBooster = function () {
             this.boostV.took = true;
             this.boostV = 0;
             this.musicBooster.play();
-            this.mario.velocity = 25;
+            this.mario.velocity = 10;
         }
         if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostV.x + 20, this.boostV.y + 20) < 70) {
             this.boostV.took = true;
             this.boostV = 0;
             this.musicBooster.play();
-            this.luigi.velocity = 25;
+            this.luigi.velocity = 10;
         }
     }
     if (this.boosterDCreated == true) {
@@ -410,13 +410,13 @@ Game.prototype.getBooster = function () {
             this.boostD.took = true;
             this.boostD = 0;
             this.musicBooster.play();
-            this.mario.framesVelocity = 5;
+            this.mario.framesVelocity = 10;
         }
         if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostD.x + 20, this.boostD.y + 20) < 70) {
             this.boostD.took = true;
             this.boostD = 0;
             this.musicBooster.play();
-            this.luigi.framesVelocity = 5;
+            this.luigi.framesVelocity = 10;
         }
     }
     if (this.boosterLCreated == true) {
