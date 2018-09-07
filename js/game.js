@@ -397,12 +397,14 @@ Game.prototype.getBooster = function () {
             this.boostV = 0;
             this.musicBooster.play();
             this.mario.velocity = 10;
+            this.mario.bulletSpeed=20;
         }
         if (this.luigi.distance(this.luigi.x + 50, this.luigi.y + 50, this.boostV.x + 20, this.boostV.y + 20) < 70) {
             this.boostV.took = true;
             this.boostV = 0;
             this.musicBooster.play();
             this.luigi.velocity = 10;
+            this.luigi.bulletSpeed=20;
         }
     }
     if (this.boosterDCreated == true) {
