@@ -8,7 +8,7 @@ function Player(game, img, sx, sy, dw, dh, x, y, color, vx, vy, imgFire) {
     this.x = x;
     this.y = y;
     this.velocity = 5;
-    this.bulletSpeed = 10;
+    this.bulletSpeed = 15;
     this.framesVelocity = 20;
     this.w = 100;
     this.h = 100;
@@ -18,7 +18,6 @@ function Player(game, img, sx, sy, dw, dh, x, y, color, vx, vy, imgFire) {
     this.vy = vy;
     this.imgFire = imgFire;
     this.lifes = ["❤", "❤", "❤", "❤", "❤"];
-
 };
 
 Player.prototype.draw = function () {

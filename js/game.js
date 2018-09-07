@@ -265,10 +265,10 @@ Game.prototype.commands = function () {
 Game.prototype.reset = function () {
     this.luigi = new Player(this, this.imgLuigiMirror,
         Math.floor(this.luigiWidth * 7 / 9), Math.floor(this.luigiHeight * 4 / 5), Math.floor(this.luigiWidth / 9),
-        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 10, 0, this.imgLuigiFire);
+        Math.floor(this.luigiHeight / 5), 100, this.canvas.height / 2 - 100, "green", 15, 0, this.imgLuigiFire);
     this.mario = new Player(this, this.imgMario,
         Math.floor(this.marioWidth * 8 / 9), Math.floor(this.marioHeight * 1 / 5), Math.floor(this.marioWidth / 9),
-        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -10, 0, this.imgMarioFire);
+        Math.floor(this.marioHeight / 5), this.canvas.width - 200, this.canvas.height / 2 - 100, "red", -15, 0, this.imgMarioFire);
     this.framesCounter = 0;
 
 
