@@ -76,12 +76,12 @@ body{
     border-radius: 2%;
     background-color:#759d40;
     opacity:0.8;
-    width:600px;
+    width:50%;
     height:450px;
     margin:0 auto;
     margin-top:10%;
     background-image:url("./Img/LuigiWins.png");
-    background-size:250px 250px;
+    background-size:35% 50%;
     background-position: 10% 65%;
     background-repeat:no-repeat;
 }
@@ -91,18 +91,18 @@ body{
     border-radius: 2%;
     background-color:#b72a2a;
     opacity:0.8;
-    width:600px;
+    width: 50%;
     height:450px;
     margin:0 auto;
     margin-top:10%;
     background-image:url("./Img/MarioWins.png");
-    background-size:250px 250px;
+    background-size:35% 50%;
     background-position: 10% 65%;
     background-repeat:no-repeat;
 }
 
 #playAgain{
-    width:35%;
+     width:35%;
     text-align:center;
     margin-left: 50%;
     margin-top: 5%;
@@ -112,7 +112,7 @@ body{
 }
 
 h2{
-    font-size: 5vw;
+    font-size: 4.5vw;
     margin-left:8%;
     margin-top:5%;
 }
