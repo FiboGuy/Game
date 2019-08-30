@@ -1,6 +1,6 @@
 # Game
 
-https://fiboguy.github.io/Game/
+https://fiboguy.github.io/MarioVSLuigi/
 
 
 Movimientos:
